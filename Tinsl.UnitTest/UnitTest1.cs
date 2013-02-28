@@ -1,5 +1,9 @@
 ﻿using System;
+#if __MonoCS__
+using NUnit.Framework;
+#else
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+#endif
 
 namespace CodePraxis.Tinsl.UnitTest
 {
@@ -7,18 +11,30 @@ namespace CodePraxis.Tinsl.UnitTest
     using CodePraxis.Tinsl;
     using CodePraxis.Tinsl.Specialized;
 
+#if __MonoCS__
+	[TestFixture]
+#else
     [TestClass]
+#endif
     public class UnitTest1
     {
-        [TestMethod]
-        public void BasicFactoryTest()
+#if __MonoCS__
+		[TestCase]
+#else
+		[TestMethod]
+#endif 
+		public void BasicFactoryTest()
         {
             IBindingResolver<object> resolver = new BasicResolver<object>();
             resolver.Bind(new RandomDoubleResolver());
             double e = resolver.Resolve<IResolver<TestType>>().Resolve<TestType>().Double;
         }
 
-        [TestMethod]
+#if __MonoCS__
+		[TestCase]
+#else
+		[TestMethod]
+#endif 
         public void TwoSingletonBindTest()
         {
             IBindingResolver<object> resolver = new BasicResolver<object>();
@@ -32,7 +48,11 @@ namespace CodePraxis.Tinsl.UnitTest
             Assert.AreSame(newInstance, resolvedInstance);
         }
 
-        [TestMethod]
+#if __MonoCS__
+		[TestCase]
+#else
+		[TestMethod]
+#endif 
         public void TwoNamedInstanceBindTest()
         {
             IBindingResolver<object> resolver = new BasicResolver<object>();
@@ -48,7 +68,11 @@ namespace CodePraxis.Tinsl.UnitTest
             Assert.AreSame(newInstance, resolvedInstance);
         }
 
-        [TestMethod]
+#if __MonoCS__
+		[TestCase]
+#else
+		[TestMethod]
+#endif 
         public void ProviderSettingTest()
         {
             IResolver<object> resolver = new ProviderResolver<object>("providerConfiguration");
@@ -57,7 +81,11 @@ namespace CodePraxis.Tinsl.UnitTest
             Assert.IsTrue(instance.Setting1 == "setting1value");
         }
 
-        [TestMethod]
+#if __MonoCS__
+		[TestCase]
+#else
+		[TestMethod]
+#endif 
         public void ProviderPolymorphismTest()
         {
             IResolver<object> resolver = new ProviderResolver<object>("providerConfiguration");
@@ -65,8 +93,11 @@ namespace CodePraxis.Tinsl.UnitTest
             Assert.IsNotNull(instance);
         }
 
-
-        [TestMethod]
+#if __MonoCS__
+		[TestCase]
+#else
+		[TestMethod]
+#endif 
         public void ChainedTest()
         {
             IResolver<object> chainedResolver = new ChainedResolver<object>(
@@ -79,7 +110,11 @@ namespace CodePraxis.Tinsl.UnitTest
 
         //Test that in a two resolver resolution, we front resolver has 
         //binded the back resolver's instance
-        [TestMethod]
+#if __MonoCS__
+		[TestCase]
+#else
+		[TestMethod]
+#endif 
         public void ChainedSingletonBindTest()
         {
             var br = new BasicResolver<object>();
@@ -98,7 +133,11 @@ namespace CodePraxis.Tinsl.UnitTest
 
         //Test that in a two resolver resolution, we front resolver has 
         //binded the back resolver's instance
-        [TestMethod]
+#if __MonoCS__
+		[TestCase]
+#else
+		[TestMethod]
+#endif 
         public void ChainedNamedInstanceBindTest()
         {
             var br = new BasicResolver<object>();
@@ -114,16 +153,23 @@ namespace CodePraxis.Tinsl.UnitTest
             Assert.AreSame(instance, instance2);
         }
 
-
-        [TestMethod]
+#if __MonoCS__
+		[TestCase]
+#else
+		[TestMethod]
+#endif 
         [ExpectedException(typeof(ResolverException))]
         public void TooManyProviders()
         {
-            INamedTestProvider instance = new ProviderResolver<object>("providerConfiguration").Resolve<INamedTestProvider>();
+            new ProviderResolver<object>("providerConfiguration").Resolve<INamedTestProvider>();
 
         }
 
-        [TestMethod]
+#if __MonoCS__
+		[TestCase]
+#else
+		[TestMethod]
+#endif 
         public void DoubleBind()
         {
             IBindingResolver<object> br = new BasicResolver<object>();
@@ -138,7 +184,11 @@ namespace CodePraxis.Tinsl.UnitTest
             Assert.AreSame(secondBind, resolved);
         }
 
-        [TestMethod]
+#if __MonoCS__
+		[TestCase]
+#else
+		[TestMethod]
+#endif 
         public void ChainedProviderResolverSetup()
         {
             IResolver<object> resolver = new ProviderResolver<object>("resolverConfiguration");
@@ -152,7 +202,11 @@ namespace CodePraxis.Tinsl.UnitTest
         }
 
 
-        [TestMethod]
+#if __MonoCS__
+		[TestCase]
+#else
+		[TestMethod]
+#endif 
         public void ChainedProviderResolverDoubleResolve()
         {
             IResolver<object> resolver = new ProviderResolver<object>("resolverConfiguration");
@@ -167,7 +221,11 @@ namespace CodePraxis.Tinsl.UnitTest
         }
 
 
-        [TestMethod]
+#if __MonoCS__
+		[TestCase]
+#else
+		[TestMethod]
+#endif 
         public void PipeliningObjectCreation()
         {
             
