@@ -7,7 +7,10 @@ namespace CodePraxis.Tinsl.UnitTest
 {
     abstract class PipelineResolver : IResolver<IPipelineableObject>
     {
-		public virtual R Resolve<R> (object identifier)
+		public virtual R Resolve<R> (object identifier)            
+#if !__MonoCS__
+             where R : IPipelineableObject
+#endif
 		{
 			throw new System.NotImplementedException ();
 		}
